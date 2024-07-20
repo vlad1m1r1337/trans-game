@@ -27,7 +27,7 @@ var score1 = 0, score2 = 0;
 var maxScore = 7;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
-var difficulty = 1;
+var difficulty = 0.2;
 
 // ------------------------------------- //
 // --------- ИГРОВЫЕ ФУНКЦИИ ----------- //
@@ -36,7 +36,7 @@ var difficulty = 1;
 function setup()
 {
 	// Обновляем блок, содержащий сообщение о необходимых для победы очках
-	document.getElementById("winnerBoard").innerHTML = "Набравший " + maxScore + " очков победит!";
+	// document.getElementById("winnerBoard").innerHTML = "Набравший " + maxScore + " очков победит!";
 	
 	// обнуляем значения переменных с очками каждого игрока
 	score1 = 0;
@@ -56,10 +56,10 @@ function createScene()
 	  HEIGHT = 360;
 
 	// set some camera attributes
-	var VIEW_ANGLE = 50,
+	var VIEW_ANGLE = 55,
 	  ASPECT = WIDTH / HEIGHT,
 	  NEAR = 0.1,
-	  FAR = 10000;
+	  FAR = 1000;
 
 	var c = document.getElementById("gameCanvas");
 
@@ -81,7 +81,8 @@ function createScene()
 	// если этого не сделать, то может
 	// испортится рендеринг теней
 	camera.position.z = 320;
-	
+	// camera.position.x = 800;
+	// camera.position.y = 800;
 	// запуск рендера
 	renderer.setSize(WIDTH, HEIGHT);
 
@@ -482,6 +483,23 @@ function playerPaddleMovement()
 }
 
 // Handles camera and lighting logic
+// function cameraPhysics()
+// {
+// 	// we can easily notice shadows if we dynamically move lights during the game
+// 	spotLight.position.x = ball.position.x * 2;
+// 	spotLight.position.y = ball.position.y * 2;
+	
+// 	// move to behind the player's paddle
+// 	camera.position.x = paddle1.position.x - 100;
+// 	camera.position.y += (paddle1.position.y - camera.position.y) * 0.05;
+// 	camera.position.z = paddle1.position.z + 100 + 0.04 * (-ball.position.x + paddle1.position.x);
+	
+// 	// rotate to face towards the opponent
+// 	camera.rotation.x = -0.01 * (ball.position.y) * Math.PI/180;
+// 	camera.rotation.y = -60 * Math.PI/180;
+// 	camera.rotation.z = -90 * Math.PI/180;
+// }
+
 function cameraPhysics()
 {
 	// we can easily notice shadows if we dynamically move lights during the game
@@ -489,13 +507,13 @@ function cameraPhysics()
 	spotLight.position.y = ball.position.y * 2;
 	
 	// move to behind the player's paddle
-	camera.position.x = paddle1.position.x - 100;
-	camera.position.y += (paddle1.position.y - camera.position.y) * 0.05;
-	camera.position.z = paddle1.position.z + 100 + 0.04 * (-ball.position.x + paddle1.position.x);
+	camera.position.x = 0;
+	camera.position.y = 0;
+	camera.position.z = 400;
 	
 	// rotate to face towards the opponent
 	camera.rotation.x = -0.01 * (ball.position.y) * Math.PI/180;
-	camera.rotation.y = -60 * Math.PI/180;
+	camera.rotation.y = 0;
 	camera.rotation.z = -90 * Math.PI/180;
 }
 
@@ -587,7 +605,7 @@ function matchScoreCheck()
 		ballSpeed = 0;
 		// выводим текст
 		document.getElementById("scores").innerHTML = "Игрок выиграл!";		
-		document.getElementById("winnerBoard").innerHTML = "Обновите страницу чтобы сыграть снова";
+		// document.getElementById("winnerBoard").innerHTML = "Обновите страницу чтобы сыграть снова";
 		// make paddle bounce up and down
 		bounceTime++;
 		paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
@@ -602,7 +620,7 @@ function matchScoreCheck()
 		ballSpeed = 0;
 		// выводим текст
 		document.getElementById("scores").innerHTML = "Выиграл компьютер!";
-		document.getElementById("winnerBoard").innerHTML = "Обновите страницу чтобы сыграть снова";
+		// document.getElementById("winnerBoard").innerHTML = "Обновите страницу чтобы сыграть снова";
 		// make paddle bounce up and down
 		bounceTime++;
 		paddle2.position.z = Math.sin(bounceTime * 0.1) * 10;
