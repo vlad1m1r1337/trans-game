@@ -32,18 +32,25 @@
 		}
 		h1 a {color: #000000; text-decoration: none;}
 	</style>
+	<!-- <script type="importmap">
+		{
+		  "imports": {
+			"three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+			"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+		  }
+		}
+	  </script> -->
 </head>
-<body onload='setup();'>
-	<script src='scripts/three.min.js'></script>
-	<script src='scripts/keyboard.js'></script>
-	<script src='scripts/game.js'></script>
+<body>
 	<div id='scoreboard'>
 		<h1 id='scores'>0-0</h1>
 		<h1 id='title'><a href="/blog/3d-game-threejs-webgl" title="Пинг-понг на WebGL и Three.js">3D ПИНГ-ПОНГ</a></h1>
 		<h2 id='winnerBoard'>Набравший 7 очков выигрыает!</h2>
-		<h3>A - перемещение влево
-		<br>D - перемещение вправо</h3>
+		<button onclick="setup()" style="font-size: xx-large;">SETUP</button>
 	</div>
 	<div id='gameCanvas'></div>
+	<script type="module" src='scripts/game.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/54/three.min.js"></script>
+
 </body>
 </html>

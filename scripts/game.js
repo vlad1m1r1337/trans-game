@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 
 // --------------------------------------------- //
 // --------- 3D ПИНГ-ПОНГ с Three.JS ----------- //
@@ -11,15 +12,15 @@
 var renderer, scene, camera, pointLight, spotLight;
 
 // определяем размер сцены
-var fieldWidth = 400, fieldHeight = 200;
+var fieldWidth = 400, fieldHeight = 400;
 
 // paddle variables
 var paddleWidth, paddleHeight, paddleDepth, paddleQuality;
-var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
+var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 10;
 
 // ball variables
 var ball, paddle1, paddle2;
-var ballDirX = 1, ballDirY = 1, ballSpeed = 2;
+var ballDirX = 1, ballDirY = 1, ballSpeed = 3;
 
 // переменные с очками каждого игрока
 var score1 = 0, score2 = 0;
@@ -52,11 +53,11 @@ function setup()
 function createScene()
 {
 	// set the scene size
-	var WIDTH = 640,
-	  HEIGHT = 360;
+	var WIDTH = 854,
+	  HEIGHT = 480;
 
 	// set some camera attributes
-	var VIEW_ANGLE = 55,
+	var VIEW_ANGLE = 45,
 	  ASPECT = WIDTH / HEIGHT,
 	  NEAR = 0.1,
 	  FAR = 1000;
@@ -166,7 +167,7 @@ function createScene()
 	// сферы: radius, segments, rings
 	// низкие значения 'segment' и 'ring'
 	// улучшают производительность
-	var radius = 5,
+	var radius = 7,
 		segments = 6,
 		rings = 6;
 		
@@ -199,7 +200,7 @@ function createScene()
 	
 	// // set up the paddle vars
 	paddleWidth = 10;
-	paddleHeight = 30;
+	paddleHeight = 60;
 	paddleDepth = 10;
 	paddleQuality = 1;
 		
@@ -247,50 +248,50 @@ function createScene()
 		
 	// we iterate 10x (5x each side) to create pillars to show off shadows
 	// this is for the pillars on the left
-	for (var i = 0; i < 5; i++)
-	{
-		var backdrop = new THREE.Mesh(
+	// for (var i = 0; i < 5; i++)
+	// {
+	// 	var backdrop = new THREE.Mesh(
 		
-		  new THREE.CubeGeometry( 
-		  30, 
-		  30, 
-		  300, 
-		  1, 
-		  1,
-		  1 ),
+	// 	  new THREE.CubeGeometry( 
+	// 	  30, 
+	// 	  30, 
+	// 	  300, 
+	// 	  1, 
+	// 	  1,
+	// 	  1 ),
 
-		  pillarMaterial);
+	// 	  pillarMaterial);
 		  
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = 230;
-		backdrop.position.z = -30;		
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;		  
-		scene.add(backdrop);	
-	}
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the right
-	for (var i = 0; i < 5; i++)
-	{
-		var backdrop = new THREE.Mesh(
+	// 	backdrop.position.x = -50 + i * 100;
+	// 	backdrop.position.y = 230;
+	// 	backdrop.position.z = -30;		
+	// 	backdrop.castShadow = true;
+	// 	backdrop.receiveShadow = true;		  
+	// 	scene.add(backdrop);	
+	// }
+	// // we iterate 10x (5x each side) to create pillars to show off shadows
+	// // this is for the pillars on the right
+	// for (var i = 0; i < 5; i++)
+	// {
+	// 	var backdrop = new THREE.Mesh(
 
-		  new THREE.CubeGeometry( 
-		  30, 
-		  30, 
-		  300, 
-		  1, 
-		  1,
-		  1 ),
+	// 	  new THREE.CubeGeometry( 
+	// 	  30, 
+	// 	  30, 
+	// 	  300, 
+	// 	  1, 
+	// 	  1,
+	// 	  1 ),
 
-		  pillarMaterial);
+	// 	  pillarMaterial);
 		  
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = -230;
-		backdrop.position.z = -30;
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;		
-		scene.add(backdrop);	
-	}
+	// 	backdrop.position.x = -50 + i * 100;
+	// 	backdrop.position.y = -230;
+	// 	backdrop.position.z = -30;
+	// 	backdrop.castShadow = true;
+	// 	backdrop.receiveShadow = true;		
+	// 	scene.add(backdrop);	
+	// }
 	
 	// finally we finish by adding a ground plane
 	// to show off pretty shadows
@@ -509,7 +510,7 @@ function cameraPhysics()
 	// move to behind the player's paddle
 	camera.position.x = 0;
 	camera.position.y = 0;
-	camera.position.z = 400;
+	camera.position.z = 700;
 	
 	// rotate to face towards the opponent
 	camera.rotation.x = -0.01 * (ball.position.y) * Math.PI/180;
@@ -629,3 +630,33 @@ function matchScoreCheck()
 		paddle2.scale.y = 2 + Math.abs(Math.sin(bounceTime * 0.05)) * 10;
 	}
 }
+
+
+////////////////////////////////////////////////
+
+window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
+window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
+
+var Key = {
+	_pressed: {},
+	
+	A: 65,
+	W: 87,
+	D: 68,
+  S: 83,
+  SPACE: 32,
+  
+  isDown: function(keyCode) {
+    return this._pressed[keyCode];
+  },
+  
+  onKeydown: function(event) {
+	  this._pressed[event.keyCode] = true;
+	},
+	
+	onKeyup: function(event) {
+		delete this._pressed[event.keyCode];
+	}
+};
+////////////////////////////////////
+window.setup = setup;
